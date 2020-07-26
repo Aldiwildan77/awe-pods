@@ -1,7 +1,7 @@
 package config
 
 type Configurations struct {
-	Server ServerConfigurations
+	Server   ServerConfigurations
 	Database DatabaseConfigurations
 }
 
@@ -11,21 +11,21 @@ type ServerConfigurations struct {
 
 type DatabaseConfigurations struct {
 	PostgresDB PostgresDatabaseConfig
-	MongoDB MongoDatabaseConfig
+	MongoDB    MongoDatabaseConfig
 }
 
 type PostgresDatabaseConfig struct {
-	DBHost string
-	DBPort int
-	DBName string
-	DBUser string
+	DBHost     string
+	DBPort     int
+	DBName     string
+	DBUser     string
 	DBPassword string
 }
 
 type MongoDatabaseConfig struct {
-	DBHost string
-	DBPort int
-	DBName string
-	DBUser string
+	DBHost     string
+	DBPort     int
+	DBName     string
+	DBUser     string
 	DBPassword string
 }

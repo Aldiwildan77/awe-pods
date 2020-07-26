@@ -3,9 +3,10 @@ package main
 import (
 	"awepods/config"
 	"fmt"
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"github.com/spf13/viper"
-	"net/http"
 )
 
 func main() {

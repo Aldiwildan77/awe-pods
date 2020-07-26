@@ -14,4 +14,3 @@ database:
     dbname: "awepods"
     dbuser: "mongodb"
     dbpassword: "mongodb"
-
