@@ -12,7 +12,7 @@ type PostgresDB struct {
   db *gorm.DB
 }
 
-func (pg *PostgresDB) NewInstance(conf *config.PostgresDatabaseConfig) *gorm.DB {
+func (pg *PostgresDB) NewInstance(conf *config.DatabaseConfiguration) *gorm.DB {
   args := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s",
     conf.DBHost,
     conf.DBPort,

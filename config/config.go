@@ -11,10 +11,10 @@ type ServerConfigurations struct {
 }
 
 type DatabaseConfigurations struct {
-  PostgresDB PostgresDatabaseConfig
+  PostgresDB DatabaseConfiguration
 }
 
-type PostgresDatabaseConfig struct {
+type DatabaseConfiguration struct {
   DBHost     string
   DBPort     int
   DBName     string

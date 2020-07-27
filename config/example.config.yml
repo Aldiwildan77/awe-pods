@@ -1,4 +1,5 @@
 server:
+  host: "localhost"
   port: 8080
 
 database:
@@ -8,9 +9,3 @@ database:
     dbname: "awepods"
     dbuser: "postgres"
     dbpassword: "postgres"
-  mongodb:
-    dbhost: "localhost"
-    dbport: 27017
-    dbname: "awepods"
-    dbuser: "mongodb"
-    dbpassword: "mongodb"
