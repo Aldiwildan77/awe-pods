@@ -1,40 +1,54 @@
 package main
 
 import (
-	"awepods/config"
-	"fmt"
-	"net/http"
+  "awepods/config"
+  "awepods/database"
+  "fmt"
+  "log"
+  "net/http"
 
-	"github.com/gorilla/mux"
-	"github.com/spf13/viper"
+  "github.com/gorilla/mux"
+  "github.com/spf13/viper"
 )
 
+var (
+  configuration config.Configurations
+  postgres      database.PostgresDB
+)
+
+func init() {
+  // Viper Setup
+  viper.SetConfigName("config")
+  viper.AddConfigPath("./config")
+  viper.AutomaticEnv()
+  viper.SetConfigType("yml")
+
+  if err := viper.ReadInConfig(); err != nil {
+    fmt.Printf("Error reading config file, %s ", err)
+  }
+
+  if err := viper.Unmarshal(&configuration); err != nil {
+    fmt.Printf("Unable to decode into struct, %v", err)
+  }
+
+  postgres = database.PostgresDB{}
+
+}
+
 func main() {
-	// Viper Setup
-	viper.SetConfigName("config")
-	viper.AddConfigPath("./config")
-	viper.AutomaticEnv()
-	viper.SetConfigType("yml")
+  // Database Setup
+  pgInstance := postgres.NewInstance(&configuration.Database.PostgresDB)
+  defer pgInstance.Close()
 
-	var configuration config.Configurations
+  // Routing Mux Setup
+  router := mux.NewRouter()
 
-	if err := viper.ReadInConfig(); err != nil {
-		fmt.Printf("Error reading config file, %s ", err)
-	}
+  // Server Start
+  addr := fmt.Sprintf("%s:%d",
+    configuration.Server.Host,
+    configuration.Server.Port)
 
-	if err := viper.Unmarshal(&configuration); err != nil {
-		fmt.Printf("Unable to decode into struct, %v", err)
-	}
-
-	// Routing Mux Setup
-	router := mux.NewRouter()
-
-	router.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-		fmt.Println("ini root")
-	})
-
-	if err := http.ListenAndServe(fmt.Sprintf(":%d", configuration.Server.Port), router); err != nil {
-		panic("Can't run your server")
-	}
+  fmt.Printf("Server is running at http://%s\n", addr)
+  log.Fatal(http.ListenAndServe(addr, router))
 
 }
