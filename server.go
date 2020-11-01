@@ -44,11 +44,11 @@ func main() {
 
 	// Server Start
 	addr := fmt.Sprintf("%s:%d", configuration.Server.Host, configuration.Server.Port)
-	fmt.Printf("Server is running at http://%s\n", addr)
-
 	if err := http.ListenAndServe(addr, router); err != nil {
 		panic(err)
 	}
+
+	fmt.Printf("Server is running at http://%s\n", addr)
 }
 
 func loadConfigurations() {
