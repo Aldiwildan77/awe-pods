@@ -1,23 +1,23 @@
 package config
 
 type Configurations struct {
-  Server   ServerConfigurations
-  Database DatabaseConfigurations
+	Server   ServerConfigurations
+	Database DatabaseConfigurations
 }
 
 type ServerConfigurations struct {
-  Host string
-  Port int
+	Host string
+	Port int
 }
 
 type DatabaseConfigurations struct {
-  PostgresDB DatabaseConfiguration
+	PostgresDB DatabaseConfiguration
 }
 
 type DatabaseConfiguration struct {
-  DBHost     string
-  DBPort     int
-  DBName     string
-  DBUser     string
-  DBPassword string
+	DBHost     string
+	DBPort     int
+	DBName     string
+	DBUser     string
+	DBPassword string
 }

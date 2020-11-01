@@ -16,3 +16,6 @@
 
 # Environment var
 /config/config.yml
+
+# Temp 
+tmp
