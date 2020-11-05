@@ -2,6 +2,7 @@ package users
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
@@ -34,6 +35,31 @@ func (repository *userRepositoryImpl) Read(id uuid.UUID) (Users, error) {
 	}
 
 	return user, nil
+}
+
+func (repository *userRepositoryImpl) Update(id uuid.UUID, user Users) (Users, error) {
+	user.ID = id
+
+	result := repository.DB.Model(&user).Update(user).First(&user)
+	if result.Error != nil {
+		return user, result.Error
+	}
+
+	return user, nil
+}
+
+func (repository *userRepositoryImpl) Delete(id uuid.UUID) bool {
+	var user Users
+
+	user.ID = id
+
+	result := repository.DB.Delete(&user)
+	fmt.Println(result)
+	if result.Error != nil {
+		return false
+	}
+
+	return true
 }
 
 func (repository *userRepositoryImpl) ValidateUsernameOrEmail(username string, email string) bool {

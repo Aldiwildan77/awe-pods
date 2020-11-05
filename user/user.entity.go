@@ -25,8 +25,8 @@ type Users struct {
 	DeletedAt   *time.Time `sql:"index"`
 }
 
-// BeforeSave for do some action before the data stored into database
-func (u *Users) BeforeSave(scope *gorm.Scope) (err error) {
+// BeforeCreate for do some action before the data stored into database
+func (u *Users) BeforeCreate(scope *gorm.Scope) (err error) {
 	if password, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost); err == nil {
 		scope.SetColumn("Password", password)
 	}

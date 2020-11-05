@@ -1,6 +1,10 @@
 package users
 
-import "github.com/google/uuid"
+import (
+	"errors"
+
+	"github.com/google/uuid"
+)
 
 type userServiceImpl struct {
 	UserRepository UserRepository
@@ -47,6 +51,64 @@ func (service *userServiceImpl) Read(id uuid.UUID) (response ReadUserResponse, _
 	}
 
 	response = ReadUserResponse{
+		ID:          result.ID,
+		Name:        result.Name,
+		Username:    result.Username,
+		Email:       result.Email,
+		Age:         result.Age,
+		Gender:      result.Gender,
+		PhotoURL:    result.PhotoURL,
+		Description: result.Description,
+	}
+
+	return response, nil
+}
+
+func (service *userServiceImpl) Update(id uuid.UUID, request UpdateUserRequest) (response UpdateUserResponse, _ error) {
+	_, e := service.UserRepository.Read(id)
+	if e != nil {
+		return response, e
+	}
+
+	user := Users{
+		Name:        request.Name,
+		Email:       request.Email,
+		Gender:      request.Gender,
+		PhotoURL:    request.PhotoURL,
+		Description: request.Description,
+	}
+
+	result, e := service.UserRepository.Update(id, user)
+	if e != nil {
+		return response, e
+	}
+
+	response = UpdateUserResponse{
+		ID:          result.ID,
+		Name:        result.Name,
+		Username:    result.Username,
+		Email:       result.Email,
+		Age:         result.Age,
+		Gender:      result.Gender,
+		PhotoURL:    result.PhotoURL,
+		Description: result.Description,
+	}
+
+	return response, nil
+}
+
+func (service *userServiceImpl) Delete(id uuid.UUID) (response DeleteUserResponse, _ error) {
+	result, e := service.UserRepository.Read(id)
+	if e != nil {
+		return response, e
+	}
+
+	isDeleted := service.UserRepository.Delete(id)
+	if isDeleted == false {
+		return response, errors.New("failed to delete user")
+	}
+
+	response = DeleteUserResponse{
 		ID:          result.ID,
 		Name:        result.Name,
 		Username:    result.Username,
